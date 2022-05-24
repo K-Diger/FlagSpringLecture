@@ -1,6 +1,7 @@
 package KimDoHyeon.lecture.domain.comment;
 
 import KimDoHyeon.lecture.domain.post.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_idx")
+    @JsonIgnore
     private Post post;
 
     @Column

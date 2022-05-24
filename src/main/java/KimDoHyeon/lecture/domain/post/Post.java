@@ -1,6 +1,8 @@
 package KimDoHyeon.lecture.domain.post;
 
 
+import KimDoHyeon.lecture.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +28,11 @@ public class Post {
 
     @Column
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_idx")
+    @JsonIgnore
+    private User user;
 
     @Column
     private LocalDateTime createdAt;

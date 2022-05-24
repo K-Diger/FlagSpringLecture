@@ -1,6 +1,11 @@
 package KimDoHyeon.lecture.domain.post;
 
 
+import KimDoHyeon.lecture.domain.user.User;
+import KimDoHyeon.lecture.domain.user.UserRepository;
+import KimDoHyeon.lecture.domain.user.UserService;
+import KimDoHyeon.lecture.global.util.JwtTokenResolver;
+import KimDoHyeon.lecture.global.util.JwtTokenValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,13 +23,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostController {
 
+    private final UserRepository userRepository;
+
     private final PostService postService;
 
     private final PostRepository postRepository;
 
+    private final JwtTokenResolver jwtTokenResolver;
+
+    private final JwtTokenValidator jwtTokenValidator;
+
 
     @PostMapping
-    public ResponseEntity<PostResponseDto.WritePostResponse> writePost(@Valid @RequestBody PostRequestDto.WritePostForm writePostForm) {
+    public ResponseEntity<PostResponseDto.WritePostResponse> writePost(@Valid @RequestHeader String Authorization,
+                                                                       @Valid @RequestBody PostRequestDto.WritePostForm writePostForm) {
+
+        // 예외처리 생략
+        jwtTokenValidator.validateAccessToken(Authorization);
+
+        Long userIdx = jwtTokenResolver.getId(Authorization);
+
+        User requestUser = userRepository.findById(userIdx).get();
 
         HashMap<String, Boolean> response = new HashMap<>();
 
@@ -32,6 +51,7 @@ public class PostController {
 
         Post newPost = Post.builder()
                 .postMbti(writePostForm.getPostMbti())
+                .user(requestUser)
                 .content(writePostForm.getContent())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())

@@ -2,7 +2,6 @@ package KimDoHyeon.lecture.domain.comment;
 
 
 import KimDoHyeon.lecture.domain.post.Post;
-import KimDoHyeon.lecture.domain.post.PostResponseDto;
 import KimDoHyeon.lecture.domain.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +53,7 @@ public class CommentController {
 
         CommentResponseDto.GetCommentResponse responseForm = new CommentResponseDto.GetCommentResponse();
 
-        responseForm.setResponse(commentRepository.findById(getCommentForm.getPostIdx(), page));
+        responseForm.setResponse(commentRepository.findByPostId(getCommentForm.getPostIdx(), page));
 
         return ResponseEntity.status(HttpStatus.OK).body(responseForm);
     }
@@ -67,7 +66,7 @@ public class CommentController {
 
         CommentResponseDto.PatchCommentResponse responseForm = new CommentResponseDto.PatchCommentResponse();
 
-        commentRepository.save(commentService.loadCommentByIndex(patchCommentForm.getId()));
+        commentService.editComment(patchCommentForm);
 
         response.put("Success", true);
 
