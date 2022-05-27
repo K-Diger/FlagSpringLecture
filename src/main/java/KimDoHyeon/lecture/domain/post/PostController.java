@@ -34,6 +34,7 @@ public class PostController {
     private final JwtTokenValidator jwtTokenValidator;
 
 
+    //글쓰기
     @PostMapping
     public ResponseEntity<PostResponseDto.WritePostResponse> writePost(@Valid @RequestHeader String Authorization,
                                                                        @Valid @RequestBody PostRequestDto.WritePostForm writePostForm) {

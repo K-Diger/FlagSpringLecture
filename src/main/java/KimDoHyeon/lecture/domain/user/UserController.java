@@ -1,7 +1,6 @@
 package KimDoHyeon.lecture.domain.user;
 
 
-import KimDoHyeon.lecture.global.config.AppConfig;
 import KimDoHyeon.lecture.global.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +26,8 @@ public class UserController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtProvider jwtProvider;
 
+    private final UserRepository userRepository;
+
     @PostMapping("/id-check")
     public ResponseEntity<UserResponseDto.CheckIdResponseForm> checkId(@Valid @RequestBody UserRequestDto.CheckIdForm checkIdForm) {
 
@@ -40,7 +41,6 @@ public class UserController {
 
         } else {
             response.put("Available", true);
-
         }
         responseForm.setResponse(response);
 
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<UserResponseDto.JoinResponseForm> checkId(@Valid @RequestBody UserRequestDto.JoinForm joinForm) {
+    public ResponseEntity<UserResponseDto.JoinResponseForm> join(@Valid @RequestBody UserRequestDto.JoinForm joinForm) {
 
         UserResponseDto.JoinResponseForm responseForm = new UserResponseDto.JoinResponseForm();
 
@@ -69,7 +69,8 @@ public class UserController {
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            userService.saveUser(newUser);
+//            userService.saveUser(newUser);
+            userRepository.save(newUser);
 
             response.put("Success", true);
 

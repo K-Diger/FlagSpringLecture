@@ -1,7 +1,9 @@
 package KimDoHyeon.lecture.domain.post;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostRequestDto {
 
     @Data

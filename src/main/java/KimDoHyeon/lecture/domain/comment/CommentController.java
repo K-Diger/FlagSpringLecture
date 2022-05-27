@@ -1,7 +1,5 @@
 package KimDoHyeon.lecture.domain.comment;
 
-
-import KimDoHyeon.lecture.domain.post.Post;
 import KimDoHyeon.lecture.domain.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

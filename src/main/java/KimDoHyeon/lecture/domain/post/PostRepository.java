@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findByPostMbti(String mbti, Pageable pageable);
+    List<Post>  findByPostMbti(String mbti, Pageable pageable);
 
 
     @Modifying
